@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en" ng-controller="AppController">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta http-equiv="X-UA-Compatible" content="requiresActiveX=true" />
+<title>%%HTML:TRANSLATE("ProductNameTag" USING DICTIONARY("version"))%%</title>
+<link rel="stylesheet" href="%%filesRef%%main.css?rand=%%HTML:TRANSLATE("ProductRevisionNumber" USING DICTIONARY("version"))%%" />
+<link rel="stylesheet" href="%%filesRef%%reset.css?rand=%%HTML:TRANSLATE("ProductRevisionNumber" USING DICTIONARY("version"))%%" />
+<link rel="stylesheet" href="%%filesRef%%cix.css?rand=%%HTML:TRANSLATE("ProductRevisionNumber" USING DICTIONARY("version"))%%" />
+<link rel="stylesheet" href="%%filesRef%%pronto-button.css?rand=%%HTML:TRANSLATE("ProductRevisionNumber" USING DICTIONARY("version"))%%" />
+<link rel="stylesheet" href="%%filesRef%%pronto-login.css?rand=%%HTML:TRANSLATE("ProductRevisionNumber" USING DICTIONARY("version"))%%" />
+<link rel="stylesheet" href="%%filesRef%%custom-login-skin.css?rand=%%HTML:TRANSLATE("ProductRevisionNumber" USING DICTIONARY("version"))%%" />
+<!--[if IE 9]>
+    <link rel="stylesheet" href="%%filesRef%%pronto-button.ie.css?rand=%%HTML:TRANSLATE("ProductRevisionNumber" USING DICTIONARY("version"))%%" type="text/css">
+    <link rel="stylesheet" href="%%filesRef%%pronto-login.ie.css?rand=%%HTML:TRANSLATE("ProductRevisionNumber" USING DICTIONARY("version"))%%" type="text/css">
+    <link rel="stylesheet" href="%%filesRef%%custom-login-skin.ie.css?rand=%%HTML:TRANSLATE("ProductRevisionNumber" USING DICTIONARY("version"))%%" type="text/css">
+<![endif]-->
+</head>
+<body class="custom-skin">
+  <!-- not supported browser panel -->
+  <div id="pronto-login__not-supported-browser" class="pronto-login" ng-show="false">
+    <div class="pronto-login__wrapper pronto-login_not-supported_text">
+      <div class="pronto-login__wrapper-body">
+	<div class="pronto-login__form-wrapper">
+	  <img pre-src="%%filesRef%%not-supported_no-sign.png?rand=%%HTML:TRANSLATE("ProductRevisionNumber" USING DICTIONARY("version"))%%" class="pronto-login_not-supported_no-sign"></img>
+	  <div class="pronto-login_not-supported_text-holder pronto-login_not-supported_text">
+	    <h1>%%HTML:STRING("BrowserNotSupported")%%</h1>
+	    <h4>%%HTML:STRING("RecomendationNotSupported")%%</h4>
+	    <h4 id="pronto-login__ie_compatibility">%%HTML:STRING("IECompatibilityNotSupported")%%</h4>
+	  </div>
+	  <div class="pronto-login_not-supported_browsers">
+	    <a href="http://ie.microsoft.com"><img pre-src="%%filesRef%%not-supported_ie.png?rand=%%HTML:TRANSLATE("ProductRevisionNumber" USING DICTIONARY("version"))%%" class="pronto-login_not-supported_icon pronto-login_not-supported_ie"></img></a>
+	    <a href="https://www.google.com/intl/en/chrome/browser/"><img pre-src="%%filesRef%%not-supported_chrome.png?rand=%%HTML:TRANSLATE("ProductRevisionNumber" USING DICTIONARY("version"))%%"  class="pronto-login_not-supported_icon pronto-login_not-supported_chrome"></img></a>
+   	    <a href="http://www.mozilla.org/firefox/new/"><img pre-src="%%filesRef%%not-supported_ff.png?rand=%%HTML:TRANSLATE("ProductRevisionNumber" USING DICTIONARY("version"))%%" class="pronto-login_not-supported_icon pronto-login_not-supported_ff"></img></a>
+            <a href="http://www.apple.com/safari/"><img pre-src="%%filesRef%%not-supported_safari.png?rand=%%HTML:TRANSLATE("ProductRevisionNumber" USING DICTIONARY("version"))%%" class="pronto-login_not-supported_icon pronto-login_not-supported_safari"></img></a>
+	  </div>
+	  <h4 class="pronto-login_not-supported_text-link">%%HTML:STRING("YouCanAlso")%% <a id="try_anyway_link" href="#">%%HTML:STRING("TryAnyway")%%</a></h4>
+	</div>
+      </div>
+      <div class="pronto-login__wrapper-footer">
+	<div class="pronto-login__form-wrapper" style="margin-bottom:30px">
+	  <div class="pronto-login_not-supported_logo"></div>
+	  <div class="pronto-login__copyright pronto-login_not-supported_center">%%HTML:STRING("HtmlClientCopyrightLabel")%%</div>
+	</div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- BEGIN login window -->
+  <div id="pronto-login" class="pronto-login">
+    <!--%%INCLUDE "login-header.wssi" -->
+    <div class="pronto-login__wrapper">
+      <div class="pronto-login__wrapper-body">
+	<!--%%INCLUDE "login-form-left.wssi" -->
+	<div class="pronto-login__form-wrapper">
+	  <!--%%INCLUDE "login-form-before.wssi" -->
+
+	  <!--%%IF EXISTS(twofa)-->
+	  <div class="pronto-login__form" style="height: 560px;">
+	    <div class="pronto-login__logo">
+	      <img src="%%filesRef%%logo-big.png" alt=" Logo" class="pronto-login__logo-img">
+	    </div>
+	      <div>
+		<iframe src="" id="acaframe" style="width: 380px; height: 380px; border: none;"></iframe>
+		<script type="text/javascript">
+		  var ACASecret = '%%secret%%';
+		  var ACAServer = '%%server%%';
+		  var ACAAccount = '%%iaccount%%';
+		  var ACAAction = '';
+		</script>
+		<script type="text/javascript" src="%%filesRef%%activeauth.js"></script>
+	      </div>
+	  </div>
+	  <!--%%ELSE-->
+	  <form action="" method="post" class="pronto-login__form" autocomplete="off" id="mainFrom">
+	    <div class="pronto-login__logo">
+	      <img src="%%filesRef%%logo-big.png" alt=" Logo" class="pronto-login__logo-img">
+	    </div>
+
+	    <div style="display: block;" class="pronto-login__start pronto-login-auth__start" id="pronto-login__start">
+	      <div class="pronto-login__list">
+		<ul class="pronto-login__list-content">
+		  <li class="pronto-login__item"><label class="pronto-login__type">Account Name</label>
+		    <span class="pronto-login__field-wrapper"><input id="username" name="Username" class="pronto-login__field pronto-login__login" tabindex="1" type="text"></span>
+		  </li>
+		  <li id="pronto-login__password-line" class="pronto-login__item"><label class="pronto-login__type">Password</label>
+		    <span class="pronto-login__field-wrapper"><input name="Password" id="password" class="pronto-login__field pronto-login__password" tabindex="2" type="password"></span>
+		  </li>
+		</ul>
+	      </div>
+	      <!--%%IF EXISTS(error)-->
+	      <div style="display: block;" class="pronto-login__error pronto-login__error-common">%%HTML:error%%</div>
+	      <!--%%ENDIF-->
+	      <input name="login" class="pronto-button pronto-login__submit" tabindex="5" value="Enter" type="submit">
+	    </div>
+	  </form>
+	  <!--%%ENDIF-->
+	  <!--%%INCLUDE "login-form-after.wssi" -->
+	</div>
+	<!--%%INCLUDE "login-form-right.wssi" -->
+      </div>
+      <div class="pronto-login__wrapper-footer">
+	<div class="pronto-login__footer">
+	  <!--%%INCLUDE "login-footer.wssi" -->
+	</div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,91 @@
+/*
+
+  Copyright 2014 Anton Katsarov <anton@webface.bg>
+
+  Distributed under the MIT License.
+
+  See accompanying file LICENSE or copy at
+  http://opensource.org/licenses/MIT
+
+*/
+
+function activeauth::sign(username, ikey, skey, akey) external;
+function activeauth::verify(response, skey, akey) external;
+function activeauth_config::get() external;
+
+entry sysEntry is
+   config = activeauth_config::get();
+   theSet = NewDictionary();
+   username = GetHTTPParameter("username",0);
+   password = GetHTTPParameter("password",0);
+   sid = GetHTTPParameter("sid",0);
+   verifyCode = GetHTTPParameter("2fa-verify",0);
+   if isString(verifyCode) then
+      account = activeauth::verify(verifyCode, config.skey, config.akey);
+      if isString(account) && account != "" then
+         rc = ExecuteCLI("CREATEWEBUSERSESSION " + ObjectToString(account) + " ADDRESS " + String(RemoteIPAddress()) + " SKIN hProtno-");
+         if IsString(rc) then
+            theSet.error = rc;
+         else
+            theSet.username = account;
+            theSet.login = Vars().executeCLIResult;
+         end if;
+      end if;
+   else
+      if IsString(username) && IsString(sid) then
+         rc = ExecuteCLI("GETSESSION " + ObjectToString(sid));
+         if IsString(rc) then
+            SetHTTPResponseCode(302);
+            AddHTTPResponseField("Location", "activeauth.wcgp?skin=hPronto-");
+         else
+            session = Vars().executeCLIResult;
+            sessionAccout = session.fullAccountName;
+            ip = session.loginAddress;
+            filesRef = session.filesRef;
+            if FindSubstring(String(RemoteIPAddress()), ip) >= 0 && FindSubstring(filesRef, "hPronto-") && sessionAccout == username then
+               theSet.verified = "YES";
+            end if;
+         end if;
+      else
+         if IsString(username) && IsString(password) then
+            rc = ExecuteCLI("VERIFYACCOUNTPASSWORD " + ObjectToString(username) + " PASSWORD " + ObjectToString(password));
+            if IsString(rc) then
+              // Set Error Message
+              theSet.error = rc;
+            else
+               rc = ExecuteCLI("GETACCOUNTPREFS " + ObjectToString(username));
+               if IsString(rc) then
+                  theSet.error = rc;
+               else
+                  prefs = Vars().executeCLIResult;
+                  if isString(prefs.Twofa) && prefs.Twofa == "true" then
+                     theSet.twofa = "YES";
+                     theSet.server = config.server;
+                     theSet.iaccount = config.iaccount;
+                     theSet.secret = activeauth::sign(username, config.ikey, config.skey, config.akey);
+                  else
+                     rc = ExecuteCLI("CREATEWEBUSERSESSION " + ObjectToString(username) + " ADDRESS " + String(RemoteIPAddress()) + " SKIN hProtno-");
+                     if IsString(rc) then
+                        theSet.error = rc;
+                     else
+                        theSet.username = username;
+                        theSet.login = Vars().executeCLIResult;
+                     end if;
+                  end if;
+               end if;
+            end if;
+         end if;
+      end if;
+   end if;
+   if isString(theSet.username) && isString(theSet.login) then
+      SetHTTPResponseCode(302);
+      AddHTTPResponseField("Location", "activeauth.wcgp?skin=hPronto-&username=" + theSet.username + "&sid=" + theSet.login);
+   else
+      if theSet.verified then
+         ProcessWSSP("activeauthok", theSet);
+      else
+         ProcessWSSP("activeauth", theSet);
+      end if;
+   end if;
+end entry;
+

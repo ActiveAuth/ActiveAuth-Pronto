@@ -1,0 +1,99 @@
+/*
+
+  Copyright 2014 Anton Katsarov <anton@webface.bg>
+
+  Distributed under the MIT License.
+
+  See accompanying file LICENSE or copy at
+  http://opensource.org/licenses/MIT
+
+*/
+
+
+function split(devider, str) forward;
+function UnixTimestamp(dateTime) forward;
+function hmacSHA1(str, key) forward;
+function localSign(username, ikey, key, type, timeout) forward;
+function localVerify(signature, key) forward;
+
+function sign(username, ikey, skey, akey) is
+   application_signature = localSign(username, ikey, akey, "APP", 3600);
+   server_signature = localSign(username, ikey, skey, "SRV", 300);
+   if NOT(isString(application_signature) && isString(server_signature)) then
+     return null;
+   end if;
+   return application_signature + ":" + server_signature;
+end function;
+
+function verify(response, skey, akey) is
+  responseSplit = split(":", response);
+  server_response = responseSplit[0];
+  application_response = responseSplit[1];
+  server_user = localVerify(server_response, skey);
+  application_user = localVerify(application_response, akey);
+  if server_user != application_user then
+     return null;
+  end if;
+  return server_user;
+end function;
+
+function hmacSHA1(str, key) is
+   params = newDictionary();
+   params.method = "POST";
+   params.body = newDictionary();
+   params.body.key = String(key);
+   params.body.str = String(str);
+   res = HTTPCall("https://127.0.0.1:9100/cgi-bin/hmacSHA1.cgi" , params);
+   if isNumber(res.responseCode) && res.responseCode == 200 then
+      return String(res.body);
+   else
+      return null;
+   end if;
+end function;
+
+function localSign(username, ikey, key, type, timeout) is
+    expire_time = UnixTimestamp(GMTTime()) + timeout;
+    account_string = Base64Encode(username + "|" + ikey + "|" + String(expire_time));
+    info_string = type + "|" + account_string;
+    signature = hmacSHA1(info_string, key);
+    return info_string + "|" + signature;
+end function;
+
+function localVerify(signature, key) is
+   now = UnixTimestamp(GMTTime());
+   signatureSplit = split("|", signature);
+   prefix = signatureSplit[0];
+   account_string = signatureSplit[1];
+   sent_signature = signatureSplit[2];
+   verification = hmacSHA1(prefix + "|" + account_string, key);
+   if sent_signature != verification then
+      return null;
+   end if;
+   data = split("|", String(Base64Decode(account_string)));
+   user = data[0];
+   expires = data[2];
+   if Number(now) >= Number(expires) then
+      return null;
+   end if;
+   return user;
+end function;
+
+function UnixTimestamp(dateTime) is
+    return DateNumber(dateTime)*86400 + TimeOfDay(dateTime);
+end function;
+
+function split(devider, str) is
+   strings = NewArray();
+   position = FindSubstring(str, devider);
+   loop
+      position = FindSubstring(str, devider);
+      if position < 0 then
+         AddElement(strings, str);
+      end if;
+      exitif position < 0;
+      substr = Substring(str, 0, FindSubstring(str, devider));
+      AddElement(strings, substr);
+      str = Substring(str, FindSubstring(str, devider) + 1, Length(str));
+   end loop;
+   return strings;
+end function;

@@ -1,0 +1,22 @@
+/*
+
+  Copyright 2014 Anton Katsarov <anton@webface.bg>
+
+  Distributed under the MIT License.
+
+  See accompanying file LICENSE or copy at
+  http://opensource.org/licenses/MIT
+
+*/
+
+function get() is
+   config = newDictionary();
+   // START config
+   config.server = "";
+   config.ikey = "";
+   config.iaccount = "";
+   config.skey = "";
+   config.akey = "";
+   // END config
+   return config;
+end function;

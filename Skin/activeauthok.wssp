@@ -1,0 +1,4 @@
+<!--%%IF EXISTS(verified)-->
+<!--%%INCLUDE "activeauth.wssi" -->
+<!--%%ENDIF-->
+
