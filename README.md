@@ -12,7 +12,7 @@ ActiveAuth Pronto!
 ```
 ln -s /opt/CommuniGate/WebSkins/hPronto-/login.wssp /var/CommuniGate/WebSkins/hPronto-/activeauth.wssi
 ```
-* Restart CommuniGateProt
+* Restart CommuniGate Pro
 
 ## Configuration
 
