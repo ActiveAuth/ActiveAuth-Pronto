@@ -24,7 +24,7 @@ function watchPrefs() {
 	injector.invoke(function (pubsubService) {
 	    function onModuleLoaded(info) {
 		var moduleName = info.data[0];
-		// contacts-core
+		// prefs module is loaded
 		if (moduleName == "prefs") {
 		    injector.invoke(function ($preferencesService) {
 			require(["angularAMD"], function (angularAMD) {
@@ -35,9 +35,7 @@ function watchPrefs() {
 				    template: template,
 				    controller: function($scope, prefsService, $timeout) {
 					$scope.onChange = function (prefName) {
-					    // alert(prefsService.getStringPref("Twofa", false, false));
 					    prefsService.setPrefString("Twofa", ! $scope.Twofa);
-					    // Always use timeout to have possibility other pref panes to save their values cumulative way
 					    $timeout(function () {
 						prefsService.prefsUpdate();
 						$scope.wasSaved($scope);
