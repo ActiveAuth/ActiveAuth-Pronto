@@ -1,0 +1,24 @@
+/*
+
+  Copyright 2014 Anton Katsarov <anton@webface.bg>
+
+  Distributed under the MIT License.
+
+  See accompanying file LICENSE or copy at
+  http://opensource.org/licenses/MIT
+
+*/
+
+entry sysEntry is
+   theSet = newDictionary();
+   username = GetHTTPParameter("Username",0);
+   if isString(username) then
+      rc = ExecuteCLI("RECOVERACCOUNTPASSWORD " + ObjectToString(username));
+      if IsString(rc) then
+         theSet.error = rc;
+      else
+         theSet.status = "OK";
+      end if;
+   end if;
+   ProcessWSSP("activeauth_recover", theSet);
+end entry;

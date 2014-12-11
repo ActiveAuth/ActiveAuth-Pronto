@@ -18,37 +18,6 @@
 <![endif]-->
 </head>
 <body class="custom-skin">
-  <!-- not supported browser panel -->
-  <div id="pronto-login__not-supported-browser" class="pronto-login" ng-show="false">
-    <div class="pronto-login__wrapper pronto-login_not-supported_text">
-      <div class="pronto-login__wrapper-body">
-	<div class="pronto-login__form-wrapper">
-	  <img pre-src="%%filesRef%%not-supported_no-sign.png?rand=%%HTML:TRANSLATE("ProductRevisionNumber" USING DICTIONARY("version"))%%" class="pronto-login_not-supported_no-sign"></img>
-	  <div class="pronto-login_not-supported_text-holder pronto-login_not-supported_text">
-	    <h1>%%HTML:STRING("BrowserNotSupported")%%</h1>
-	    <h4>%%HTML:STRING("RecomendationNotSupported")%%</h4>
-	    <h4 id="pronto-login__ie_compatibility">%%HTML:STRING("IECompatibilityNotSupported")%%</h4>
-	  </div>
-	  <div class="pronto-login_not-supported_browsers">
-	    <a href="http://ie.microsoft.com"><img pre-src="%%filesRef%%not-supported_ie.png?rand=%%HTML:TRANSLATE("ProductRevisionNumber" USING DICTIONARY("version"))%%" class="pronto-login_not-supported_icon pronto-login_not-supported_ie"></img></a>
-	    <a href="https://www.google.com/intl/en/chrome/browser/"><img pre-src="%%filesRef%%not-supported_chrome.png?rand=%%HTML:TRANSLATE("ProductRevisionNumber" USING DICTIONARY("version"))%%"  class="pronto-login_not-supported_icon pronto-login_not-supported_chrome"></img></a>
-   	    <a href="http://www.mozilla.org/firefox/new/"><img pre-src="%%filesRef%%not-supported_ff.png?rand=%%HTML:TRANSLATE("ProductRevisionNumber" USING DICTIONARY("version"))%%" class="pronto-login_not-supported_icon pronto-login_not-supported_ff"></img></a>
-            <a href="http://www.apple.com/safari/"><img pre-src="%%filesRef%%not-supported_safari.png?rand=%%HTML:TRANSLATE("ProductRevisionNumber" USING DICTIONARY("version"))%%" class="pronto-login_not-supported_icon pronto-login_not-supported_safari"></img></a>
-	  </div>
-	  <h4 class="pronto-login_not-supported_text-link">%%HTML:STRING("YouCanAlso")%% <a id="try_anyway_link" href="#">%%HTML:STRING("TryAnyway")%%</a></h4>
-	</div>
-      </div>
-      <div class="pronto-login__wrapper-footer">
-	<div class="pronto-login__form-wrapper" style="margin-bottom:30px">
-	  <div class="pronto-login_not-supported_logo"></div>
-	  <div class="pronto-login__copyright pronto-login_not-supported_center">%%HTML:STRING("HtmlClientCopyrightLabel")%%</div>
-	</div>
-
-      </div>
-    </div>
-
-  </div>
-
   <!-- BEGIN login window -->
   <div id="pronto-login" class="pronto-login">
     <!--%%INCLUDE "login-header.wssi" -->
@@ -83,10 +52,10 @@
 	    <div style="display: block;" class="pronto-login__start pronto-login-auth__start" id="pronto-login__start">
 	      <div class="pronto-login__list">
 		<ul class="pronto-login__list-content">
-		  <li class="pronto-login__item"><label class="pronto-login__type">Account Name</label>
+		  <li class="pronto-login__item"><label class="pronto-login__type">%%HTML:STRING("LoginNameTag")%%</label>
 		    <span class="pronto-login__field-wrapper"><input id="username" name="Username" class="pronto-login__field pronto-login__login" tabindex="1" type="text"></span>
 		  </li>
-		  <li id="pronto-login__password-line" class="pronto-login__item"><label class="pronto-login__type">Password</label>
+		  <li id="pronto-login__password-line" class="pronto-login__item"><label class="pronto-login__type">%%HTML:STRING("LoginPasswordTag")%%</label>
 		    <span class="pronto-login__field-wrapper"><input name="Password" id="password" class="pronto-login__field pronto-login__password" tabindex="2" type="password"></span>
 		  </li>
 		</ul>
@@ -94,7 +63,8 @@
 	      <!--%%IF EXISTS(error)-->
 	      <div style="display: block;" class="pronto-login__error pronto-login__error-common">%%HTML:error%%</div>
 	      <!--%%ENDIF-->
-	      <input name="login" class="pronto-button pronto-login__submit" tabindex="5" value="Enter" type="submit">
+	      <input name="login" class="pronto-button pronto-login__submit" tabindex="5" value="%%HTML:STRING("LoginButton")%%" type="submit">
+              <a class="pronto-login__link-button pronto-login__recover-password-invite" href="activeauth_recover.wcgp?skin=hPronto-">%%HTML:STRING("PasswordRecoveryTag")%%</a>
 	    </div>
 	  </form>
 	  <!--%%ENDIF-->
