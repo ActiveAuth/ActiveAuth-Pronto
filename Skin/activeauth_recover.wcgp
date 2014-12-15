@@ -9,16 +9,49 @@
 
 */
 
+function UnixTimestamp(dateTime) forward;
+
 entry sysEntry is
    theSet = newDictionary();
    username = GetHTTPParameter("Username",0);
+   // Settings -> RecoverPassword
+   // Settings -> PasswordRecovery
+   // GetAccountSettings("RealName", username);
+   // Password recovery via E-mail is disabled
+   // No password recovery E-mail address has been specified
    if isString(username) then
-      rc = ExecuteCLI("RECOVERACCOUNTPASSWORD " + ObjectToString(username));
-      if IsString(rc) then
-         theSet.error = rc;
+      recovery = GetAccountSettings("PasswordRecovery", username);
+      if recovery == null then
+         theSet.error = "No such account.";
       else
-         theSet.status = "OK";
+         if recovery == true then
+            email = GetAccountSettings("RecoverPassword", username);
+            if email == null then
+               theSet.error = "No password recovery E-mail address has been specified";
+            else
+               restoreSessions = GetAccountPreferences("ProntoRestorePasswordSessions");
+               if not isDictionary(restoreSessions) then
+                  restoreSessions = newDictionary();
+               end if;
+               sessionId = String(Convert(CryDigest("SHA1", RandomData(1024)),"hex"));
+               restoreSessions.(sessionId) = newDictionary();
+               restoreSessions.(sessionId).account = username;
+               restoreSessions.(sessionId).expires = String(Number(UnixTimestamp(GMTTime())) + 86400);
+               setResult = SetAccountPreferences(restoreSessions, "ProntoRestorePasswordSessions");
+               mailResult = SendEMail(myEmail(),"[+] Password rectovery", email, null , "In order to recover your password please copy and paste in your browser or click on the link below:\n\n" + String(GetHTTPField("Schema")) + "://" + String(GetHTTPField("Host")) + "/sys/activeauth_recoverpassword.wcgp?skin=hPronto-&sid=" + sessionId + "\n\nBest regards,\nActiveAuth Team.");              if mailResult == null then
+                  theSet.status = "OK";
+               else
+                  theSet.error = mailResult;
+               end if;
+            end if;
+         else
+            theSet.error = "Password recovery via E-mail is disabled";
+         end if;
       end if;
    end if;
    ProcessWSSP("activeauth_recover", theSet);
 end entry;
+
+function UnixTimestamp(dateTime) is
+    return DateNumber(dateTime)*86400 + TimeOfDay(dateTime);
+end function;
