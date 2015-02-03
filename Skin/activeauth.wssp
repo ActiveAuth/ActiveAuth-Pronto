@@ -18,6 +18,29 @@
 <![endif]-->
 </head>
 <body class="custom-skin">
+	<!-- not supported browser panel -->
+	<div id="pronto-login__not-supported-browser" class="pronto-login" ng-show="false">
+	  <div class="pronto-login__wrapper pronto-login_not-supported_text">
+	    <div class="pronto-login__wrapper-body">
+	      <div class="pronto-login__form-wrapper">
+		<img pre-src="%%filesRef%%not-supported_no-sign.png?rand=%%HTML:TRANSLATE("ProductRevisionNumber" USING DICTIONARY("version"))%%" class="pronto-login_not-supported_no-sign"></img>
+		<div class="pronto-login_not-supported_text-holder pronto-login_not-supported_text">
+		  <h1>%%HTML:STRING("BrowserNotSupported")%%</h1>
+		  <h4>%%HTML:STRING("RecomendationNotSupported")%%</h4>
+		  <h4 id="pronto-login__ie_compatibility">%%HTML:STRING("IECompatibilityNotSupported")%%</h4>
+		</div>
+		<div class="pronto-login_not-supported_browsers">
+		  <a href="http://ie.microsoft.com"><img pre-src="%%filesRef%%not-supported_ie.png?rand=%%HTML:TRANSLATE("ProductRevisionNumber" USING DICTIONARY("version"))%%" class="pronto-login_not-supported_icon pronto-login_not-supported_ie"></img></a>
+		  <a href="https://www.google.com/intl/en/chrome/browser/"><img pre-src="%%filesRef%%not-supported_chrome.png?rand=%%HTML:TRANSLATE("ProductRevisionNumber" USING DICTIONARY("version"))%%"  class="pronto-login_not-supported_icon pronto-login_not-supported_chrome"></img></a>
+   		  <a href="http://www.mozilla.org/firefox/new/"><img pre-src="%%filesRef%%not-supported_ff.png?rand=%%HTML:TRANSLATE("ProductRevisionNumber" USING DICTIONARY("version"))%%" class="pronto-login_not-supported_icon pronto-login_not-supported_ff"></img></a>
+                  <a href="http://www.apple.com/safari/"><img pre-src="%%filesRef%%not-supported_safari.png?rand=%%HTML:TRANSLATE("ProductRevisionNumber" USING DICTIONARY("version"))%%" class="pronto-login_not-supported_icon pronto-login_not-supported_safari"></img></a>
+		</div>
+		<!-- <h4 class="pronto-login_not-supported_text-link">%%HTML:STRING("YouCanAlso")%% <a id="try_anyway_link" href="#">%%HTML:STRING("TryAnyway")%%</a></h4> -->
+	      </div>
+	    </div>
+	  </div>
+	</div>
+  </div>
   <!-- BEGIN login window -->
   <div id="pronto-login" class="pronto-login">
     <!--%%INCLUDE "login-header.wssi" -->
@@ -79,5 +102,6 @@
       </div>
     </div>
   </div>
+  <script type="text/javascript" src="%%filesRef%%activeauth_browsercheck.js?rand=%%HTML:TRANSLATE("ProductRevisionNumber" USING DICTIONARY("version"))%%"></script>
 </body>
 </html>
