@@ -32,7 +32,7 @@ var messageEvent = eventMethod == "attachEvent" ? "onmessage" : "message";
 
 // Listen for message from child window
 eventeHandler(messageEvent,function(e) {
-    if (e.origin == 'https://' + ACAServer) {
+    if (e.origin == 'https://' + ACAServer && e.data.match(/^SRV/)) {
 	var input = document.getElementById('2fa-verify');
 	var form = document.getElementById('2fa-form');
 	form.action = ACAAction;

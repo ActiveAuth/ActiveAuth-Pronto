@@ -1,2 +1,0 @@
-<!-- custom head tags -->
-<script type="text/javascript" src="%%filesRef%%pronto_activeauth.js?rand=%%HTML:TRANSLATE("ProductRevisionNumber" USING DICTIONARY("version"))%%"></script>

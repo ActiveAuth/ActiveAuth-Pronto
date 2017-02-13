@@ -8,14 +8,8 @@
 <link rel="stylesheet" href="%%filesRef%%main.css?rand=%%HTML:TRANSLATE("ProductRevisionNumber" USING DICTIONARY("version"))%%" />
 <link rel="stylesheet" href="%%filesRef%%reset.css?rand=%%HTML:TRANSLATE("ProductRevisionNumber" USING DICTIONARY("version"))%%" />
 <link rel="stylesheet" href="%%filesRef%%cix.css?rand=%%HTML:TRANSLATE("ProductRevisionNumber" USING DICTIONARY("version"))%%" />
-<link rel="stylesheet" href="%%filesRef%%pronto-button.css?rand=%%HTML:TRANSLATE("ProductRevisionNumber" USING DICTIONARY("version"))%%" />
-<link rel="stylesheet" href="%%filesRef%%pronto-login.css?rand=%%HTML:TRANSLATE("ProductRevisionNumber" USING DICTIONARY("version"))%%" />
-<link rel="stylesheet" href="%%filesRef%%custom-login-skin.css?rand=%%HTML:TRANSLATE("ProductRevisionNumber" USING DICTIONARY("version"))%%" />
-<!--[if IE 9]>
-    <link rel="stylesheet" href="%%filesRef%%pronto-button.ie.css?rand=%%HTML:TRANSLATE("ProductRevisionNumber" USING DICTIONARY("version"))%%" type="text/css">
-    <link rel="stylesheet" href="%%filesRef%%pronto-login.ie.css?rand=%%HTML:TRANSLATE("ProductRevisionNumber" USING DICTIONARY("version"))%%" type="text/css">
-    <link rel="stylesheet" href="%%filesRef%%custom-login-skin.ie.css?rand=%%HTML:TRANSLATE("ProductRevisionNumber" USING DICTIONARY("version"))%%" type="text/css">
-<![endif]-->
+<link rel="stylesheet" href="%%filesRef%%pronto-button-fresh.css?rand=%%HTML:TRANSLATE("ProductRevisionNumber" USING DICTIONARY("version"))%%" />
+<link rel="stylesheet" href="%%filesRef%%pronto-login-fresh.css?rand=%%HTML:TRANSLATE("ProductRevisionNumber" USING DICTIONARY("version"))%%" />
 </head>
 <body class="custom-skin">
 	<!-- not supported browser panel -->
@@ -53,7 +47,7 @@
 	  <!--%%IF EXISTS(twofa)-->
 	  <div class="pronto-login__form" style="height: 560px;">
 	    <div class="pronto-login__logo">
-	      <img src="%%filesRef%%logo-big.png" alt=" Logo" class="pronto-login__logo-img">
+	      <img src="%%filesRef%%logo-big-fresh.png" alt=" Logo" class="pronto-login__logo-img">
 	    </div>
 	      <div>
 		<iframe src="" id="acaframe" style="width: 380px; height: 380px; border: none;"></iframe>
@@ -69,7 +63,7 @@
 	  <!--%%ELSE-->
 	  <form action="" method="post" class="pronto-login__form" autocomplete="off" id="mainFrom">
 	    <div class="pronto-login__logo">
-	      <img src="%%filesRef%%logo-big.png" alt=" Logo" class="pronto-login__logo-img">
+	      <img src="%%filesRef%%logo-big-fresh.png" alt=" Logo" class="pronto-login__logo-img">
 	    </div>
 
 	    <div style="display: block;" class="pronto-login__start pronto-login-auth__start" id="pronto-login__start">

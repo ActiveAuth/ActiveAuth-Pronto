@@ -58,7 +58,7 @@ entry sysEntry is
                   theSet.error = rc;
                else
                   prefs = Vars().executeCLIResult;
-                  if isString(prefs.Twofa) && prefs.Twofa == "true" then
+                  if isString(prefs.ActiveAuthEnabled) && prefs.ActiveAuthEnabled == "true" then
                      theSet.twofa = "YES";
                      theSet.server = config.server;
                      theSet.iaccount = config.iaccount;
@@ -79,7 +79,7 @@ entry sysEntry is
    end if;
    if isString(theSet.username) && isString(theSet.login) then
       SetHTTPResponseCode(302);
-      AddHTTPResponseField("Location", "activeauth.wcgp?skin=hPronto-&username=" + theSet.username + "&sid=" + theSet.login);
+      AddHTTPResponseField("Location", "activeauth.wcgp?skin=hPronto-&username=" + theSet.username + "&sid=" + theSet.login + "&killOld=true");
    else
       if theSet.verified then
          ProcessWSSP("activeauthok", theSet);

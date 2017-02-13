@@ -38,17 +38,7 @@ function verify(response, skey, akey) is
 end function;
 
 function hmacSHA1(str, key) is
-   params = newDictionary();
-   params.method = "POST";
-   params.body = newDictionary();
-   params.body.key = String(key);
-   params.body.str = String(str);
-   res = HTTPCall("https://127.0.0.1:9100/cgi-bin/hmacSHA1.cgi" , params);
-   if isNumber(res.responseCode) && res.responseCode == 200 then
-      return String(res.body);
-   else
-      return null;
-   end if;
+   return Convert(CryDigest("SHA1", Base64Decode(Base64Encode(str)), Base64Decode(Base64Encode(key))), "hex");
 end function;
 
 function localSign(username, ikey, key, type, timeout) is
